@@ -11,10 +11,17 @@
  * 5. Run: npm install && npm start
  */
 
-require('dotenv').config();
+// Load environment variables from .env.local (if exists) or .env
+require('dotenv').config({ path: '.env.local' });
+require('dotenv').config(); // .env as fallback
 const express = require('express');
 const cors = require('cors');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+// Initialize Stripe only if API key is available
+let stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +33,32 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-app.use(express.static('../')); // Serve frontend files
+
+// Intercept response headers to override strict CSP from static middleware
+app.use((req, res, next) => {
+    const originalSetHeader = res.setHeader.bind(res);
+    res.setHeader = function(name, value) {
+        if (name.toLowerCase() === 'content-security-policy') {
+            // Override strict CSP with permissive one for development
+            return originalSetHeader(name, "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: http://localhost:* https:; connect-src 'self' http://localhost:* https: ws: wss:;");
+        }
+        return originalSetHeader(name, value);
+    };
+    next();
+});
+
+// Handle Chrome DevTools endpoint to prevent 404
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
+    res.status(204).end();
+});
+
+// Serve static files from current directory (where index.html, app.js, styles.css are)
+app.use(express.static(__dirname));
+
+// Serve index.html for root route
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -44,13 +76,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const { successUrl, cancelUrl, customerEmail } = req.body;
 
         // Validate required environment variables
-        if (!process.env.STRIPE_SECRET_KEY) {
-            throw new Error('Stripe secret key not configured');
+        if (!process.env.STRIPE_SECRET_KEY || !stripe) {
+            throw new Error('Stripe secret key not configured. Please set STRIPE_SECRET_KEY in your .env file.');
         }
 
         if (!process.env.STRIPE_PRICE_ID) {
-            throw new Error('Stripe price ID not configured');
+            throw new Error('Stripe price ID not configured. Please set STRIPE_PRICE_ID in your .env file.');
         }
+
+        // Log key mode for debugging (without exposing the full key)
+        const keyMode = process.env.STRIPE_SECRET_KEY.startsWith('sk_test_') ? 'test' : 
+                       process.env.STRIPE_SECRET_KEY.startsWith('sk_live_') ? 'live' : 'unknown';
+        console.log(`Creating checkout session with ${keyMode} mode key`);
 
         // Create checkout session options
         const sessionOptions = {
@@ -102,6 +139,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
         // Create the session
         const session = await stripe.checkout.sessions.create(sessionOptions);
 
+        console.log('Checkout session created:', {
+            id: session.id,
+            url: session.url,
+            mode: session.mode,
+            payment_status: session.payment_status
+        });
+
+        // Validate session was created successfully
+        if (!session.id) {
+            throw new Error('Failed to create checkout session: No session ID returned');
+        }
+
         // Return session ID to frontend
         res.json({
             id: session.id,
@@ -109,9 +158,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error creating checkout session:', error.message);
+        console.error('Error creating checkout session:', error);
+        console.error('Error details:', {
+            message: error.message,
+            type: error.type,
+            code: error.code
+        });
         res.status(500).json({
-            error: error.message || 'Failed to create checkout session'
+            error: error.message || 'Failed to create checkout session',
+            details: process.env.NODE_ENV === 'development' ? {
+                type: error.type,
+                code: error.code
+            } : undefined
         });
     }
 });
@@ -133,6 +191,10 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
 
     try {
         // Verify webhook signature
+        if (!stripe) {
+            return res.status(500).json({ error: 'Stripe not configured' });
+        }
+        
         if (webhookSecret) {
             event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
         } else {
@@ -191,6 +253,15 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
 app.get('/api/product', async (req, res) => {
     try {
         if (!process.env.STRIPE_PRICE_ID) {
+            return res.json({
+                name: 'Octadox Pre-Order',
+                description: 'Per-client document automation service',
+                price: 10000, // $100.00 in cents
+                currency: 'usd'
+            });
+        }
+
+        if (!stripe) {
             return res.json({
                 name: 'Octadox Pre-Order',
                 description: 'Per-client document automation service',

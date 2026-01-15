@@ -6,12 +6,12 @@
 // Configuration - Replace with your actual values
 const CONFIG = {
     // Replace with your Stripe publishable key
-    stripePublishableKey: 'pk_test_51SphiUJW5jaFvfxXCOAN8sW2cfQJ3Mwgmhxz81ZM8EeBKDh2oHi3auk33oJMshLU5jSxEtrBFZC8nNMs4CVo8ndH00Tw3txadn',
+    stripePublishableKey: 'pk_live_51SpiimCHpaq6nenDHaQl3O8A2YtwVllX3onLQ5XrxbrulSTFtdjroNjxrazWtn2T6bGD5ui5fs7d3FzpFXHrpZmY00yiNuVvHc',
     // Replace with your backend URL
     backendUrl: '/api',
     // Contact info shown after successful payment
-    contactEmail: 'support@octadox.com',
-    contactPhone: '(555) 123-4567'
+    contactEmail: 'founders@octadox.com',
+    contactPhone: '(617) 804-5463'
 };
 
 // Initialize Stripe
@@ -133,18 +133,36 @@ async function handleCheckout() {
 
         const session = await response.json();
 
+        if (!session.id) {
+            throw new Error(session.error || 'Failed to create checkout session');
+        }
+
+        console.log('Redirecting to checkout session:', session.id);
+
         // Redirect to Stripe Checkout
         const result = await stripe.redirectToCheckout({
             sessionId: session.id
         });
 
         if (result.error) {
+            console.error('Stripe redirect error:', result.error);
+            // Provide more helpful error message
+            if (result.error.message && result.error.message.includes('Checkout Session could not be found')) {
+                throw new Error('API key mismatch: Your publishable key and secret key must be from the same Stripe account and both in test mode (or both in live mode). Please check your .env.local file.');
+            }
             throw new Error(result.error.message);
         }
 
     } catch (error) {
         console.error('Checkout error:', error);
-        showError('Something went wrong. Please try again or contact us directly.');
+        // Show more specific error message
+        let errorMessage = 'Something went wrong. Please try again or contact us directly.';
+        if (error.message && error.message.includes('API key mismatch')) {
+            errorMessage = error.message;
+        } else if (error.message && error.message.includes('Checkout Session')) {
+            errorMessage = 'Payment session error. Please ensure your Stripe keys are correctly configured and from the same account.';
+        }
+        showError(errorMessage);
     } finally {
         checkoutButton.classList.remove('loading');
         checkoutButton.disabled = false;
