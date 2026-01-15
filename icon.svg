@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background circle for visibility -->
+    <circle cx="50" cy="50" r="48" fill="#1E3A5F"/>
+    <!-- Outer octagon -->
+    <polygon points="30,7 70,7 93,30 93,70 70,93 30,93 7,70 7,30" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <!-- Inner octagon -->
+    <polygon points="38,22 62,22 78,38 78,62 62,78 38,78 22,62 22,38" fill="none" stroke="#ffffff" stroke-width="2"/>
+</svg>

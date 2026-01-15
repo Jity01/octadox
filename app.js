@@ -69,6 +69,11 @@ function initNavigation() {
 // Smooth scroll for anchor links
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Skip pre-order buttons - they have their own handler
+        if (anchor.classList.contains('pre-order-btn')) {
+            return;
+        }
+        
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
@@ -91,20 +96,35 @@ function initSmoothScroll() {
 
 // Checkout button functionality
 function initCheckoutButton() {
-    const checkoutButton = document.getElementById('checkout-button');
+    // Get all pre-order buttons
+    const preOrderButtons = document.querySelectorAll('.pre-order-btn');
 
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', handleCheckout);
-    }
+    preOrderButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Prevent default anchor link behavior (prevents scrolling)
+            e.preventDefault();
+            e.stopPropagation();
+            // Trigger checkout directly
+            handleCheckout();
+        });
+    });
 }
 
 // Handle checkout process
 async function handleCheckout() {
-    const checkoutButton = document.getElementById('checkout-button');
+    const allPreOrderButtons = document.querySelectorAll('.pre-order-btn');
 
-    // Add loading state
-    checkoutButton.classList.add('loading');
-    checkoutButton.disabled = true;
+    // Add loading state to all pre-order buttons
+    allPreOrderButtons.forEach(button => {
+        button.classList.add('loading');
+        // Only disable if it's a button element (not an anchor)
+        if (button.tagName === 'BUTTON') {
+            button.disabled = true;
+        } else {
+            // For anchor tags, prevent clicks by disabling pointer events
+            button.style.pointerEvents = 'none';
+        }
+    });
 
     try {
         // Check if Stripe is initialized
@@ -164,16 +184,31 @@ async function handleCheckout() {
         }
         showError(errorMessage);
     } finally {
-        checkoutButton.classList.remove('loading');
-        checkoutButton.disabled = false;
+        // Remove loading state from all pre-order buttons
+        allPreOrderButtons.forEach(button => {
+            button.classList.remove('loading');
+            // Re-enable based on element type
+            if (button.tagName === 'BUTTON') {
+                button.disabled = false;
+            } else {
+                button.style.pointerEvents = '';
+            }
+        });
     }
 }
 
 // Show demo mode message (when Stripe isn't configured)
 function showDemoMode() {
-    const checkoutButton = document.getElementById('checkout-button');
-    checkoutButton.classList.remove('loading');
-    checkoutButton.disabled = false;
+    const allPreOrderButtons = document.querySelectorAll('.pre-order-btn');
+    allPreOrderButtons.forEach(button => {
+        button.classList.remove('loading');
+        // Re-enable based on element type
+        if (button.tagName === 'BUTTON') {
+            button.disabled = false;
+        } else {
+            button.style.pointerEvents = '';
+        }
+    });
 
     // For demo, show the success modal
     const modal = document.getElementById('success-modal');
