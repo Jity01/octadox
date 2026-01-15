@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octadox - Automated Client Document Collection for Family Law</title>
+    <meta name="description" content="Stop chasing clients for documents. Octadox automates client data collection for family lawyers, saving you hours every week.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                    <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Octadox</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#documents">Documents</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <a href="#pricing" class="btn btn-primary nav-cta">Pre-Order Now</a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    Launching Soon - Pre-Order Available
+                </div>
+                <h1>Stop Chasing Clients for Documents</h1>
+                <p class="hero-subtitle">Octadox automates client data collection for family lawyers. Your clients get step-by-step guidance to gather their documents, while you get organized files delivered directly to you.</p>
+                <div class="hero-cta">
+                    <a href="#pricing" class="btn btn-primary btn-lg">Pre-Order for $100/client</a>
+                    <p class="cta-subtext">Early adopter pricing. Full support included.</p>
+                </div>
+                <div class="hero-trust">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        <span>HIPAA Compliance in Progress</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        <span>GLBA & FERPA Certification Underway</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-preview">
+                    <div class="dashboard-header">
+                        <div class="dashboard-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="dashboard-title">Client Document Portal</span>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="doc-item completed">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                            <span>Marriage Certificate</span>
+                            <span class="status">Uploaded</span>
+                        </div>
+                        <div class="doc-item completed">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                            <span>Tax Returns (3 years)</span>
+                            <span class="status">Uploaded</span>
+                        </div>
+                        <div class="doc-item in-progress">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                            <span>Bank Statements</span>
+                            <span class="status pending">In Progress</span>
+                        </div>
+                        <div class="doc-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <span>Property Deeds</span>
+                            <span class="status pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <div class="problem-content">
+                <h2>We Know the Struggle</h2>
+                <p class="section-subtitle">Family law cases require dozens of documents. Your clients don't know where to find them, what format you need, or when to submit. You end up spending hours on follow-ups instead of practicing law.</p>
+                <div class="problem-stats">
+                    <div class="stat">
+                        <span class="stat-number">40%</span>
+                        <span class="stat-label">of attorney time spent on administrative tasks</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">7+</span>
+                        <span class="stat-label">average follow-ups per client for documents</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3 weeks</span>
+                        <span class="stat-label">average delay due to missing paperwork</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>How Octadox Works for You</h2>
+                <p class="section-subtitle">We guide your clients through document collection while you focus on what matters - winning their case.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h3>Step-by-Step Client Guidance</h3>
+                    <p>Your clients receive clear instructions on exactly what documents they need and where to get them. No more confused phone calls.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3>Organized Document Delivery</h3>
+                    <p>All client documents arrive organized by category and ready for your case file. Marriage docs, financials, property records - all sorted.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <h3>Automated Follow-Ups</h3>
+                    <p>Gentle, professional reminders keep clients on track. You'll never have to send another "did you get that document?" email.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>White-Glove Onboarding</h3>
+                    <p>We'll hop on a call with your firm to set everything up. Need custom automations? We'll build them with you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Security-First Design</h3>
+                    <p>Built from the ground up with attorney-client privilege in mind. Your clients' data is encrypted and protected.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3>Save Hours Every Week</h3>
+                    <p>Reclaim the time you spend on document chasing. Focus on case strategy, client consultations, and court prep.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documents Section -->
+    <section id="documents" class="documents-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Documents We Help Collect</h2>
+                <p class="section-subtitle">We guide your clients through gathering every document commonly needed in family law cases.</p>
+            </div>
+            <div class="documents-grid">
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3>Personal & Marriage</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Marriage Certificate</li>
+                        <li>Birth Certificates</li>
+                        <li>Photo ID / Driver's License</li>
+                        <li>Social Security Information</li>
+                    </ul>
+                    <p class="doc-source">Sources: County clerk's office, state vital records</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <h3>Financial Documents</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Tax Returns (3 years)</li>
+                        <li>Pay Stubs / W-2s / 1099s</li>
+                        <li>Bank Statements</li>
+                        <li>Investment & Retirement Accounts</li>
+                    </ul>
+                    <p class="doc-source">Sources: IRS, employers, banks, brokerages</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </div>
+                        <h3>Property & Assets</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Property Deeds</li>
+                        <li>Mortgage Statements</li>
+                        <li>Vehicle Titles</li>
+                        <li>Business Documents</li>
+                    </ul>
+                    <p class="doc-source">Sources: County recorder, DMV, accountants</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                <line x1="2" y1="10" x2="22" y2="10"/>
+                            </svg>
+                        </div>
+                        <h3>Debts & Liabilities</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Credit Card Statements</li>
+                        <li>Loan Documents</li>
+                        <li>Student Loan Records</li>
+                        <li>Other Debt Obligations</li>
+                    </ul>
+                    <p class="doc-source">Sources: Lenders, studentaid.gov</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                            </svg>
+                        </div>
+                        <h3>Insurance & Benefits</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Health Insurance Policies</li>
+                        <li>Life Insurance Policies</li>
+                        <li>Auto Insurance</li>
+                        <li>Homeowners Insurance</li>
+                    </ul>
+                    <p class="doc-source">Sources: Insurance agents, policy providers</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Children & Custody</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>School Records</li>
+                        <li>Daycare Information</li>
+                        <li>Medical Records</li>
+                        <li>Extracurricular Activities</li>
+                    </ul>
+                    <p class="doc-source">Sources: Schools, daycares, medical providers</p>
+                </div>
+                <div class="doc-category">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                        </div>
+                        <h3>Legal Documents</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li>Prior Court Orders</li>
+                        <li>Restraining Orders</li>
+                        <li>Separation Agreements</li>
+                        <li>Prenuptial Agreements</li>
+                    </ul>
+                    <p class="doc-source">Sources: Clerk of court, prior attorneys</p>
+                </div>
+                <div class="doc-category highlight">
+                    <div class="doc-category-header">
+                        <div class="doc-category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </div>
+                        <h3>Custom Documents</h3>
+                    </div>
+                    <p class="custom-doc-text">Need to collect specific documents for your firm? We'll work with you to add custom document types and workflows tailored to your practice.</p>
+                    <a href="#pricing" class="btn btn-outline btn-sm">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p class="section-subtitle">No subscriptions, no hidden fees. Pay per client, get full support.</p>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-badge">Pre-Order Special</div>
+                <div class="pricing-header">
+                    <h3>Per Client</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">100</span>
+                        <span class="period">/client</span>
+                    </div>
+                    <p class="pricing-subtitle">One-time payment. Full service included.</p>
+                </div>
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Complete document collection automation</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Step-by-step client guidance portal</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Automated reminder system</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Organized document delivery</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Direct phone & email support</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Personalized onboarding call</span>
+                    </div>
+                    <div class="pricing-feature highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span><strong>Custom automations</strong> built for your firm</span>
+                    </div>
+                </div>
+                <div class="pricing-cta">
+                    <button id="checkout-button" class="btn btn-primary btn-lg btn-full">Pre-Order Now - $100</button>
+                    <p class="pricing-guarantee">Secure payment via Stripe. You'll receive direct contact details immediately.</p>
+                </div>
+            </div>
+            <div class="pricing-note">
+                <div class="note-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                </div>
+                <div class="note-content">
+                    <h4>Early Adopter Benefits</h4>
+                    <p>As a pre-order customer, you get priority access and the opportunity to shape the product. Tell us your biggest document collection frustrations, and we'll build custom automations specifically for your firm's workflow - included in your $100 purchase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compliance Section -->
+    <section class="compliance-section">
+        <div class="container">
+            <div class="compliance-content">
+                <div class="compliance-text">
+                    <h2>Security & Compliance</h2>
+                    <p>We take data security seriously. We're actively pursuing the following compliance certifications to ensure your clients' sensitive information is protected:</p>
+                    <div class="compliance-grid">
+                        <div class="compliance-item">
+                            <div class="compliance-status in-progress">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div class="compliance-info">
+                                <h4>HIPAA</h4>
+                                <p>Health Insurance Portability and Accountability Act</p>
+                            </div>
+                        </div>
+                        <div class="compliance-item">
+                            <div class="compliance-status in-progress">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div class="compliance-info">
+                                <h4>GLBA</h4>
+                                <p>Gramm-Leach-Bliley Act for financial data</p>
+                            </div>
+                        </div>
+                        <div class="compliance-item">
+                            <div class="compliance-status in-progress">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div class="compliance-info">
+                                <h4>FERPA</h4>
+                                <p>Family Educational Rights and Privacy Act</p>
+                            </div>
+                        </div>
+                        <div class="compliance-item">
+                            <div class="compliance-status in-progress">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div class="compliance-info">
+                                <h4>PII Protection</h4>
+                                <p>Personally Identifiable Information safeguards</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="compliance-timeline">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        Estimated completion: ~4-6 weeks
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about Octadox</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>When will the platform be ready?</h3>
+                    <p>We're actively developing Octadox and expect to complete our compliance certifications within 4-6 weeks. Once certified, we'll begin onboarding pre-order customers immediately. As an early adopter, you'll be first in line.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What happens after I pre-order?</h3>
+                    <p>You'll immediately receive our direct email and phone number. We'll schedule an onboarding call to understand your firm's specific needs and start building any custom automations you require - even before the full platform launches.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How does the $100/client pricing work?</h3>
+                    <p>You pay $100 per client case. This covers complete document collection automation for that client, including our guidance portal, automated reminders, and organized document delivery. No monthly fees, no hidden charges.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What if I have specific document needs?</h3>
+                    <p>We'll work directly with your firm to add custom document types and workflows. If there's a specific frustration in your document collection process, tell us and we'll build an automation for it as part of your purchase.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is my clients' data secure?</h3>
+                    <p>Absolutely. We're building Octadox with security as a foundation, pursuing HIPAA, GLBA, FERPA, and PII compliance certifications. All data is encrypted in transit and at rest, and we follow attorney-client privilege best practices.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What kind of support do I get?</h3>
+                    <p>Direct access to our team via phone and email. We respond quickly and are happy to hop on calls whenever needed. As a startup, we're personally invested in making sure every customer succeeds.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Stop Chasing Documents?</h2>
+                <p>Join family lawyers who are taking back their time. Pre-order now and be first in line when we launch.</p>
+                <a href="#pricing" class="btn btn-white btn-lg">Pre-Order for $100/client</a>
+                <p class="cta-subtext">Questions? We'd love to chat. Reach out after your purchase.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                            <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Octadox</span>
+                    </a>
+                    <p>Automating client document collection for family lawyers.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#documents">Documents</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#faq">FAQ</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Octadox. All rights reserved.</p>
+                <div class="footer-compliance">
+                    <span>HIPAA</span>
+                    <span>GLBA</span>
+                    <span>FERPA</span>
+                    <span>PII</span>
+                    <span class="compliance-note">(In Progress)</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+            </div>
+            <h2>Thank You for Your Pre-Order!</h2>
+            <p>We're excited to have you as an early adopter. Here's how to reach us:</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span id="contact-email">support@octadox.com</span>
+                </div>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <span id="contact-phone">(555) 123-4567</span>
+                </div>
+            </div>
+            <p class="modal-note">We'll be in touch within 24 hours to schedule your onboarding call!</p>
+            <button class="btn btn-primary" onclick="closeModal()">Got It</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
