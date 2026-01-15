@@ -6,7 +6,7 @@
 // Configuration - Replace with your actual values
 const CONFIG = {
     // Replace with your Stripe publishable key
-    stripePublishableKey: 'pk_test_51SpiivCNoaGNsZ3x6nvQn4d5CprCXQF4qHBAZdCYp0qxvbL2RtuK50EqfJPirrnfHQqCVOQTaYHwRmlKr5lYvoAI00mDKm6667',
+    stripePublishableKey: 'pk_live_51SpiimCHpaq6nenDHaQl3O8A2YtwVllX3onLQ5XrxbrulSTFtdjroNjxrazWtn2T6bGD5ui5fs7d3FzpFXHrpZmY00yiNuVvHc',
     // Replace with your backend URL
     backendUrl: '/api',
     // Contact info shown after successful payment
