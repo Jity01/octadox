@@ -1,32 +1,18 @@
 // ================================
 // Octadox Landing Page JavaScript
-// Stripe Payment Integration
 // ================================
 
-// Configuration - Replace with your actual values
+// Configuration
 const CONFIG = {
-    // Replace with your Stripe publishable key
-    stripePublishableKey: 'pk_live_51SpiimCHpaq6nenDHaQl3O8A2YtwVllX3onLQ5XrxbrulSTFtdjroNjxrazWtn2T6bGD5ui5fs7d3FzpFXHrpZmY00yiNuVvHc',
-    // Replace with your backend URL
-    backendUrl: '/api',
-    // Contact info shown after successful payment
+    // Contact info
     contactEmail: 'founders@octadox.com',
     contactPhone: '(617) 804-5463'
 };
 
-// Initialize Stripe
-let stripe;
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Stripe with your publishable key
-    if (CONFIG.stripePublishableKey && CONFIG.stripePublishableKey !== 'pk_test_YOUR_PUBLISHABLE_KEY_HERE') {
-        stripe = Stripe(CONFIG.stripePublishableKey);
-    }
-
     // Initialize all components
     initNavigation();
     initSmoothScroll();
-    initCheckoutButton();
     initUrlParams();
 });
 
@@ -69,11 +55,6 @@ function initNavigation() {
 // Smooth scroll for anchor links
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // Skip pre-order buttons - they have their own handler
-        if (anchor.classList.contains('pre-order-btn')) {
-            return;
-        }
-        
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
@@ -94,162 +75,13 @@ function initSmoothScroll() {
     });
 }
 
-// Checkout button functionality
-function initCheckoutButton() {
-    // Get all pre-order buttons
-    const preOrderButtons = document.querySelectorAll('.pre-order-btn');
-
-    preOrderButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Prevent default anchor link behavior (prevents scrolling)
-            e.preventDefault();
-            e.stopPropagation();
-            // Trigger checkout directly
-            handleCheckout();
-        });
-    });
-}
-
-// Handle checkout process
-async function handleCheckout() {
-    const allPreOrderButtons = document.querySelectorAll('.pre-order-btn');
-
-    // Add loading state to all pre-order buttons
-    allPreOrderButtons.forEach(button => {
-        button.classList.add('loading');
-        // Only disable if it's a button element (not an anchor)
-        if (button.tagName === 'BUTTON') {
-            button.disabled = true;
-        } else {
-            // For anchor tags, prevent clicks by disabling pointer events
-            button.style.pointerEvents = 'none';
-        }
-    });
-
-    try {
-        // Check if Stripe is initialized
-        if (!stripe) {
-            // For demo purposes, show the success modal with instructions
-            showDemoMode();
-            return;
-        }
-
-        // Create checkout session on your backend
-        const response = await fetch(`${CONFIG.backendUrl}/create-checkout-session`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                priceId: 'price_octadox_client', // Your Stripe Price ID
-                successUrl: `${window.location.origin}?payment=success`,
-                cancelUrl: `${window.location.origin}?payment=cancelled`
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to create checkout session');
-        }
-
-        const session = await response.json();
-
-        if (!session.id) {
-            throw new Error(session.error || 'Failed to create checkout session');
-        }
-
-        console.log('Redirecting to checkout session:', session.id);
-
-        // Redirect to Stripe Checkout
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id
-        });
-
-        if (result.error) {
-            console.error('Stripe redirect error:', result.error);
-            // Provide more helpful error message
-            if (result.error.message && result.error.message.includes('Checkout Session could not be found')) {
-                throw new Error('API key mismatch: Your publishable key and secret key must be from the same Stripe account and both in test mode (or both in live mode). Please check your .env.local file.');
-            }
-            throw new Error(result.error.message);
-        }
-
-    } catch (error) {
-        console.error('Checkout error:', error);
-        // Show more specific error message
-        let errorMessage = 'Something went wrong. Please try again or contact us directly.';
-        if (error.message && error.message.includes('API key mismatch')) {
-            errorMessage = error.message;
-        } else if (error.message && error.message.includes('Checkout Session')) {
-            errorMessage = 'Payment session error. Please ensure your Stripe keys are correctly configured and from the same account.';
-        }
-        showError(errorMessage);
-    } finally {
-        // Remove loading state from all pre-order buttons
-        allPreOrderButtons.forEach(button => {
-            button.classList.remove('loading');
-            // Re-enable based on element type
-            if (button.tagName === 'BUTTON') {
-                button.disabled = false;
-            } else {
-                button.style.pointerEvents = '';
-            }
-        });
-    }
-}
-
-// Show demo mode message (when Stripe isn't configured)
-function showDemoMode() {
-    const allPreOrderButtons = document.querySelectorAll('.pre-order-btn');
-    allPreOrderButtons.forEach(button => {
-        button.classList.remove('loading');
-        // Re-enable based on element type
-        if (button.tagName === 'BUTTON') {
-            button.disabled = false;
-        } else {
-            button.style.pointerEvents = '';
-        }
-    });
-
-    // For demo, show the success modal
-    const modal = document.getElementById('success-modal');
-    const emailEl = document.getElementById('contact-email');
-    const phoneEl = document.getElementById('contact-phone');
-
-    if (emailEl) emailEl.textContent = CONFIG.contactEmail;
-    if (phoneEl) phoneEl.textContent = CONFIG.contactPhone;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Log setup instructions
-    console.log('%c Octadox Stripe Setup Instructions ', 'background: #1E3A5F; color: white; padding: 10px; font-size: 14px;');
-    console.log(`
-To enable real payments:
-
-1. Get your Stripe keys from https://dashboard.stripe.com/apikeys
-
-2. Update CONFIG in app.js:
-   stripePublishableKey: 'pk_live_YOUR_KEY' or 'pk_test_YOUR_KEY'
-
-3. Create a product and price in Stripe Dashboard
-
-4. Set up the server (see server/ directory) with your Secret Key
-
-5. Deploy the backend and update CONFIG.backendUrl
-    `);
-}
-
-// Check URL parameters for payment status
+// Check URL parameters for signup status
 function initUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment');
+    const signupStatus = urlParams.get('signup');
 
-    if (paymentStatus === 'success') {
+    if (signupStatus === 'success') {
         showSuccessModal();
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (paymentStatus === 'cancelled') {
-        showMessage('Payment was cancelled. Feel free to try again when you\'re ready.');
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -258,14 +90,10 @@ function initUrlParams() {
 // Show success modal
 function showSuccessModal() {
     const modal = document.getElementById('success-modal');
-    const emailEl = document.getElementById('contact-email');
-    const phoneEl = document.getElementById('contact-phone');
-
-    if (emailEl) emailEl.textContent = CONFIG.contactEmail;
-    if (phoneEl) phoneEl.textContent = CONFIG.contactPhone;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 // Close modal
@@ -289,12 +117,6 @@ document.addEventListener('keydown', function(e) {
         closeModal();
     }
 });
-
-// Show error message
-function showError(message) {
-    // Create toast notification
-    showToast(message, 'error');
-}
 
 // Show success message
 function showMessage(message) {
